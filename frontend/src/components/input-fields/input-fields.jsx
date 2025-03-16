@@ -9,6 +9,7 @@ function Input() {
   const [inputValue, setInputValue] = useState("");
   const textareaRef = useRef(null);
   const [fileName, setFileName] = useState("");
+  const [file, setFile] = useState(null);
 
   const handleInputButtonClick = (event) => {
     const inputType = event.currentTarget.getAttribute("data-input-type");
@@ -29,6 +30,7 @@ function Input() {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
+      setFile(file);
       setFileName(file.name);
       setPlaceholder(file.name);
     }
@@ -115,7 +117,7 @@ function Input() {
       {(inputValue || fileName) && (
         <button
           type="button"
-          onClick={() => handleSubmit(inputValue, fileName, activeButton)}
+          onClick={() => handleSubmit(inputValue, fileName, file, activeButton)}
           disabled={isSubmitDisabled}
           className="submit-button"
         >
