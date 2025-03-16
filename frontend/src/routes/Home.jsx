@@ -1,5 +1,6 @@
 import React from "react";
 import { Helmet } from "react-helmet";
+import Input from "../components/input-fields/input-fields";
 
 function Home() {
   return (
@@ -7,16 +8,7 @@ function Home() {
       <Helmet>
         <title>Privacy policy analyzer</title>
       </Helmet>
-      <h1>test</h1>
-      <div
-        style={{
-          backgroundColor: "var(--primary-color)",
-          padding: "20px",
-          borderRadius: "8px",
-        }}
-      >
-        This is a div with primary background color.
-      </div>
+      <Input />
     </>
   );
 }
