@@ -69,6 +69,10 @@
     color: #000;
 }
 
+.input-fields .input-field textarea{
+    min-height: 200px;
+}
+
 .input-fields .input-field textarea:focus,
 .input-fields .input-field input:focus {
     border: none;

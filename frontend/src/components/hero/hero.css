@@ -1,4 +1,6 @@
 .page-title{
     color: var(--primary-color);
     font-size: clamp(1.625rem, 5vw, 2.65rem);
+    font-weight: 400;
+    margin-top: 90px;
 }

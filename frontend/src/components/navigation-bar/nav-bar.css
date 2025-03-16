@@ -1,0 +1,30 @@
+.navigation-bar{
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%);
+    top: 0;
+    width: 100vw;
+    background-color: #fff;
+    display: flex;
+    padding: 15px 20px;
+    box-sizing: border-box;
+    transition: width 0.3s ease;
+}
+
+.navigation-bar .items{
+    max-width: 1530px;
+    width: 100%;
+    margin: 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 50px;
+}
+
+.navigation-bar .items a svg path{
+    transition: fill 0.3s ease;
+}
+
+.navigation-bar .items a:hover svg path{
+    fill: var(--primary-color);
+}
