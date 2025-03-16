@@ -1,20 +1,18 @@
 import React from "react";
 import { Helmet } from "react-helmet";
-import Input from "../components/input-fields/input-fields";
 import Hero from "../components/hero/hero";
 import NavigationBar from "../components/navigation-bar/nav-bar";
 
-function Home() {
+function History() {
   return (
     <>
       <Helmet>
-        <title>Privatumo politikos analizavimo sistema</title>
+        <title>Istorija</title>
       </Helmet>
       <NavigationBar />
-      <Hero title={"Privatumo politikos analizavimo sistema"} />
-      <Input />
+      <Hero title={"Istorija"} />
     </>
   );
 }
 
-export default Home;
+export default History;
