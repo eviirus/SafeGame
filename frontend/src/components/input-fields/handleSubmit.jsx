@@ -23,9 +23,7 @@ const handleTextInput = async (inputValue) => {
       await axios.post("http://localhost:5000/endpoints/processText", {
         text: inputValue,
       });
-      console.log("Text successfully sent to the server");
     } catch (error) {
-      console.error("Error uploading text:", error);
       alert("Įvyko klaida įkeliant tekstą į serverį");
     }
   }
@@ -45,8 +43,6 @@ const handleFileInput = async (fileName, file) => {
   const fileExtension = fileName.toLowerCase().split(".").pop();
 
   if (fileExtension === "pdf") {
-    console.log("Sending file to server");
-
     const formData = new FormData();
     formData.append("file", file);
 
