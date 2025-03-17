@@ -13,13 +13,21 @@ export const handleSubmit = (inputValue, fileName, file, inputType) => {
   }
 };
 
-const handleTextInput = (inputValue) => {
+const handleTextInput = async (inputValue) => {
   const MIN_INPUT_LENGTH = 1000;
 
   if (inputValue.length < MIN_INPUT_LENGTH) {
     alert("Patikrinkite ar įklijavote pilną privatumo politikos tekstą");
   } else {
-    console.log("Sending input to server");
+    try {
+      await axios.post("http://localhost:5000/endpoints/processText", {
+        text: inputValue,
+      });
+      console.log("Text successfully sent to the server");
+    } catch (error) {
+      console.error("Error uploading text:", error);
+      alert("Įvyko klaida įkeliant tekstą į serverį");
+    }
   }
 };
 
@@ -43,17 +51,14 @@ const handleFileInput = async (fileName, file) => {
     formData.append("file", file);
 
     try {
-      const response = await axios.post(
+      await axios.post(
         "http://localhost:5000/endpoints/convertFile",
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
-
-      console.log("Server response:", response.data);
     } catch (error) {
-      console.error("Error uploading file:", error);
       alert("Įvyko klaida įkeliant failą į serverį");
     }
   } else {

@@ -36,4 +36,16 @@ app.post("/endpoints/convertFile", async (req, res) => {
   }
 });
 
+app.post("/endpoints/processText", async (req, res) => {
+  const { text } = req.body;
+
+  if (!text) {
+    return res.status(400).json({ error: "No text provided" });
+  }
+
+  const processedText = text;
+
+  res.json({ success: true, processedText });
+});
+
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
