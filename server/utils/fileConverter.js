@@ -29,23 +29,4 @@ async function convertFile(file) {
   }
 }
 
-
-async function convertFile(file) {
-    console.log("Converting PDF...");
-
-    try {
-        if (!file || !file.data) {
-            throw new Error("Invalid file input");
-        }
-
-        const text = await extractTextFromPDF(file.data);
-        console.log("Extracted Text:\n", text);
-        return { success: true, data: text };
-    } catch (error) {
-        console.error("Error extracting text:", error);
-        return { success: false, error: error.message };
-    }
-}
-
-export { convertFile };
-  //module.exports = { convertFile };
+module.exports = { convertFile };
