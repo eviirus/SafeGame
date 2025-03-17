@@ -1,9 +1,7 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import Input from "../input-fields";
 import "@testing-library/jest-dom";
-import { handleSubmit } from "../handleSubmit";
 
-// Mocking the handleSubmit function
 jest.mock("../handleSubmit", () => ({
   handleSubmit: jest.fn(),
 }));
