@@ -4,6 +4,7 @@ const cors = require("cors");
 const fileUpload = require("express-fileupload");
 require("dotenv").config();
 const { convertFile } = require("./utils/fileConverter");
+const { generateResultFromText } = require("./utils/generateResultFromText");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -27,12 +28,19 @@ app.post("/endpoints/convertFile", async (req, res) => {
 
   const file = req.files.file;
 
-  const result = await convertFile(file);
+  try {
+    const result = await convertFile(file);
 
-  if (result.success) {
-    res.json(result);
-  } else {
-    res.status(500).json(result);
+    if (result.success) {
+      const response = await generateResultFromText(result);
+
+      res.json(result);
+      res.json(response);
+    } else {
+      res.status(500).json(result);
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
