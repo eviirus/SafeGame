@@ -2,8 +2,11 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
-require("dotenv").config();
-const { convertFile } = require("./utils/fileConverter");
+const dotenv = require("dotenv");
+const { convertFile } = require("./utils/fileConverter.js");
+const { generateResultFromText } = require("./utils/generateResultFromText.js");
+
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -27,12 +30,35 @@ app.post("/endpoints/convertFile", async (req, res) => {
 
   const file = req.files.file;
 
-  const result = await convertFile(file);
+  try {
+    const result = await convertFile(file);
 
-  if (result.success) {
-    res.json(result);
-  } else {
-    res.status(500).json(result);
+    if (result.success) {
+      const response = await generateResultFromText(result);
+
+      res.json(result);
+      res.json(response);
+    } else {
+      res.status(500).json(result);
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.post("/endpoints/processText", async (req, res) => {
+  const { text } = req.body;
+
+  if (!text) {
+    return res.status(400).json({ error: "No text provided" });
+  }
+
+  try {
+    const response = await generateResultFromText(text);
+
+    res.json(response);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 

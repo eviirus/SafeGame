@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "./routes/Home";
 import History from "./routes/History";
+import Form from "./routes/Form";
 
 function App() {
   return (
@@ -11,6 +12,9 @@ function App() {
       </Routes>
       <Routes>
         <Route path="/istorija/" element={<History />} />
+      </Routes>
+      <Routes>
+        <Route path="/forma/" element={<Form />} />
       </Routes>
     </div>
   );
