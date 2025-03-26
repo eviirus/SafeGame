@@ -1,18 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const {
-  generateResultFromText,
-} = require("../utils/generateResultFromText.js");
+const { formatTextInput } = require("../utils/formatTextInput.js");
 
 router.post("/", async (req, res) => {
   const { text } = req.body;
 
-  if (!text) {
-    return res.status(400).json({ error: "No text provided" });
-  }
-
   try {
-    const response = await generateResultFromText(text);
+    const response = await formatTextInput(text);
 
     res.json(response);
   } catch (error) {
