@@ -5,6 +5,8 @@ const {
   generateResultFromText,
 } = require("../utils/generateResultFromText.js");
 
+const MIN_INPUT_LENGTH = 1000;
+
 router.post("/", async (req, res) => {
   if (!req.files || !req.files.file) {
     return res.status(400).json({ error: "No file uploaded" });
@@ -14,6 +16,14 @@ router.post("/", async (req, res) => {
 
   try {
     const result = await convertFile(file);
+
+    if (result.data.length < MIN_INPUT_LENGTH) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Patikrinkite ar failą sudaro pilnas privatumo politikos tekstas",
+      });
+    }
 
     if (result.success) {
       const response = await generateResultFromText(result);

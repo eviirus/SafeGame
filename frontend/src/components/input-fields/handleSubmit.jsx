@@ -55,7 +55,11 @@ const handleFileInput = async (fileName, file) => {
         }
       );
     } catch (error) {
-      alert("Įvyko klaida įkeliant failą į serverį");
+      if (error.response) {
+        alert(error.response.data.message);
+      } else {
+        alert("Įvyko klaida įkeliant failą į serverį");
+      }
     }
   } else {
     alert("Tik .pdf failai yra leidžiami");
