@@ -8,10 +8,6 @@ const {
 const MIN_INPUT_LENGTH = 1000;
 
 router.post("/", async (req, res) => {
-  if (!req.files || !req.files.file) {
-    return res.status(400).json({ error: "No file uploaded" });
-  }
-
   const file = req.files.file;
 
   try {
