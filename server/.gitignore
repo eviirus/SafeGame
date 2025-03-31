@@ -1,5 +1,5 @@
 # Environment variables
 /server/.env
-
+*.env
 # Node dependencies
 /server/node_modules/
