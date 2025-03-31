@@ -13,6 +13,8 @@ async function extractTextFromPDF(fileBuffer) {
     extractedText += pageText + "\n";
   }
 
+  extractedText = extractedText.replace(/\s+/g, " ").trim();
+
   return extractedText;
 }
 
@@ -23,7 +25,7 @@ async function convertFile(file) {
     }
 
     const text = await extractTextFromPDF(file.data);
-    return { success: true, data: text };
+    return { data: text };
   } catch (error) {
     return { success: false, error: error.message };
   }
