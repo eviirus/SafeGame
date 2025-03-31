@@ -1,9 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const { convertFile } = require("../utils/fileConverter.js");
-const {
-  generateResultFromText,
-} = require("../utils/generateResultFromText.js");
 
 const MIN_INPUT_LENGTH = 1000;
 
@@ -21,14 +18,7 @@ router.post("/", async (req, res) => {
       });
     }
 
-    if (result.success) {
-      const response = await generateResultFromText(result);
-
-      res.json(result);
-      res.json(response);
-    } else {
-      res.status(500).json(result);
-    }
+    res.json(result);
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
   }
