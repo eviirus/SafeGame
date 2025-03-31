@@ -1,0 +1,136 @@
+.result-container{
+    width: 100%;
+    display: none;
+    margin-top: 50px;
+    flex-direction: column;
+}
+
+.result-container h2{
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--primary-color);
+    margin-top: 0;
+}
+
+.result-container.show{
+    display: flex;
+}
+
+.result-container .grid{
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.result-container .grid .item{
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.result-container .grid .item button{
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
+    border: none;
+    cursor: pointer;
+    gap: 15px;
+    padding: 15px 32px;
+    background-color: #fff;
+    border-radius: 6px;
+}
+
+.result-container .grid .item button:hover span{
+    color: var(--primary-color);
+}
+
+.result-container .grid .item button .icon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+.result-container .grid .item button .icon.rotate{
+    transform: rotate(180deg);
+}
+
+.result-container .grid .item button .icon svg path{
+    transition: fill 0.3s ease;
+}
+
+.result-container .grid .item button:hover .icon svg path{
+    fill: var(--primary-color);
+}
+
+.result-container .grid .item button .icon svg{
+    flex-shrink: 0;
+}
+
+.result-container .grid .item button span{
+    transition: color 0.3s ease;
+    font-size: 20px;
+    font-weight: 500;
+    color: #000;
+    margin: 0;
+}
+
+.result-container .grid .item .content{
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    padding: 15px 32px;
+    box-sizing: border-box;
+    background-color: #fff;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+.result-container .grid .item .content.visible{
+    display: flex;
+}
+
+.result-container .grid .item .content.visible .result-container .grid .item button{
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+.result-container .grid .item .content .row{
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.result-container .grid .item .content .row span{
+    color: #000;
+    font-size: 16px;
+    font-weight: 400;
+    margin: 0;
+}
+
+.result-container .grid .item .content .row svg{
+    flex-shrink: 0;
+}
+
+@media(max-width: 768px){
+    .result-container .grid{
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .result-container .grid .item button span{
+        font-size: 18px;
+    }
+
+    .result-container .grid .item .content .row span{
+        font-size: 14px;
+    }
+}
