@@ -21,8 +21,16 @@ function Home() {
   useEffect(() => {
     if (resultReceived && generatedResult.length > 0) {
       const newHistoryEntry = {
-        date: new Date().toLocaleDateString(),
-        time: new Date().toLocaleTimeString(),
+        date: new Date().toLocaleDateString("lt-LT", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+        }),
+        time: new Date().toLocaleTimeString("lt-LT", {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        }),
         result: generatedResult,
       };
 

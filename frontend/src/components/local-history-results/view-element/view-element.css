@@ -1,0 +1,12 @@
+.history-element .pp-title{
+    font-size: 26px;
+    font-weight: 400;
+}
+
+.history-element .result-container{
+    margin-top: 0;
+}
+
+.history-element .result-container h2{
+    display: none;
+}
