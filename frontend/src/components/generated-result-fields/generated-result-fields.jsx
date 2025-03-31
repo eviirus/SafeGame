@@ -8,11 +8,10 @@ function GeneratedResultFields({ isVisible, result }) {
   const [visibleIndexes, setVisibleIndexes] = useState([]);
 
   const handleContentDisplay = (index) => {
-    setVisibleIndexes(
-      (prevIndexes) =>
-        prevIndexes.includes(index)
-          ? prevIndexes.filter((i) => i !== index) 
-          : [...prevIndexes, index] 
+    setVisibleIndexes((prevIndexes) =>
+      prevIndexes.includes(index)
+        ? prevIndexes.filter((i) => i !== index)
+        : [...prevIndexes, index]
     );
   };
 
