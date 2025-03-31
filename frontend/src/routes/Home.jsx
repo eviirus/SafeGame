@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import Input from "../components/input-fields/input-fields";
 import Hero from "../components/hero/hero";
@@ -17,6 +17,22 @@ function Home() {
   const handleGeneratedResult = (result) => {
     setGenratedResult(result);
   };
+
+  useEffect(() => {
+    if (resultReceived && generatedResult.length > 0) {
+      const newHistoryEntry = {
+        date: new Date().toLocaleDateString(),
+        time: new Date().toLocaleTimeString(),
+        result: generatedResult,
+      };
+
+      const existingHistory = JSON.parse(localStorage.getItem("history")) || [];
+      const updatedHistory = [newHistoryEntry, ...existingHistory];
+
+      localStorage.setItem("history", JSON.stringify(updatedHistory));
+      console.log(JSON.parse(localStorage.getItem("history")));
+    }
+  }, [resultReceived, generatedResult]);
 
   return (
     <>
