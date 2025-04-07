@@ -1,10 +1,10 @@
 name: Node.js CI (Frontend + Server)
 on:
   push:
-    branches: 
+    branches:
       - main
       - feature
-      - 'feature-*'
+      - "feature-*"
   pull_request:
     branches:
       - main
@@ -18,23 +18,20 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          
+          node-version: "20"
+
       - name: Install frontend dependencies
         working-directory: frontend
-        run: |
-          npm install
-          npm install react-router-dom
+        run: npm install
 
       - name: Fix react-scripts permission error
         working-directory: frontend
         run: chmod +x node_modules/.bin/react-scripts
-        
+
       - name: Run frontend tests
         working-directory: frontend
-        run: npm test -- --passWithNoTests
-        continue-on-error: true
-        
+        run: npm test
+
       - name: Install server dependencies
         working-directory: server
         run: npm install
@@ -42,7 +39,7 @@ jobs:
       - name: Fix Jest permission error
         working-directory: server
         run: chmod +x node_modules/.bin/jest
-        
+
       - name: Run server tests
         working-directory: server
         run: npm test
