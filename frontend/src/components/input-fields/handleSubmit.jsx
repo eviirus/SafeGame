@@ -42,23 +42,23 @@ const handleTextInput = async (
 const prepareTextInput = async (text) => {
   const MIN_INPUT_LENGTH = 1000;
 
-  if (text.length < MIN_INPUT_LENGTH) {
+  if (text.length <= MIN_INPUT_LENGTH) {
     alert("Patikrinkite ar įklijavote pilną privatumo politikos tekstą");
-  } else {
-    try {
-      const formattedText = await axios.post(
-        "http://localhost:5000/endpoints/processText",
-        {
-          text: text,
-        }
-      );
+    return;
+  }
+  try {
+    const formattedText = await axios.post(
+      "http://localhost:5000/endpoints/processText",
+      {
+        text: text,
+      }
+    );
 
-      return formattedText.data;
-    } catch (error) {
-      alert("Įvyko klaida įkeliant tekstą į serverį");
+    return formattedText.data;
+  } catch (error) {
+    alert("Įvyko klaida įkeliant tekstą į serverį");
 
-      return null;
-    }
+    return null;
   }
 };
 
