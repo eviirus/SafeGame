@@ -27,6 +27,10 @@ jobs:
         working-directory: frontend
         run: npm ci
 
+      - name: Fix react-scripts permission
+        working-directory: frontend
+        run: chmod +x node_modules/.bin/react-scripts
+
       - name: Run frontend tests
         working-directory: frontend
         run: npm test
