@@ -3,12 +3,13 @@ import "../input-fields/input-fields.css";
 import pdfImage from "../../assets/images/pdf-image.png";
 import { handleSubmit } from "./handleSubmit";
 
-function Input() {
+function Input({ handleResultReceived, handleGeneratedResult }) {
   const [placeholder, setPlaceholder] = useState("Tekstą įklijuokite čia");
   const [activeButton, setActiveButton] = useState("text");
   const [inputValue, setInputValue] = useState("");
   const textareaRef = useRef(null);
   const [fileName, setFileName] = useState("");
+  const [file, setFile] = useState(null);
 
   const handleInputButtonClick = (event) => {
     const inputType = event.currentTarget.getAttribute("data-input-type");
@@ -29,6 +30,7 @@ function Input() {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
+      setFile(file);
       setFileName(file.name);
       setPlaceholder(file.name);
     }
@@ -36,6 +38,17 @@ function Input() {
 
   const handleLinkChange = (event) => {
     setInputValue(event.target.value);
+  };
+
+  const onSubmit = (inputValue, fileName, file, inputType) => {
+    handleSubmit(
+      inputValue,
+      fileName,
+      file,
+      inputType,
+      handleResultReceived,
+      handleGeneratedResult
+    );
   };
 
   const isSubmitDisabled = !inputValue && !fileName;
@@ -115,7 +128,7 @@ function Input() {
       {(inputValue || fileName) && (
         <button
           type="button"
-          onClick={() => handleSubmit(inputValue, fileName, activeButton)}
+          onClick={() => onSubmit(inputValue, fileName, file, activeButton)}
           disabled={isSubmitDisabled}
           className="submit-button"
         >

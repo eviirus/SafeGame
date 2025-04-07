@@ -1,13 +1,24 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-require("dotenv").config();
+const fileUpload = require("express-fileupload");
+const dotenv = require("dotenv");
+const convertFileRoute = require("./routes/convertFile.js");
+const processTextRoute = require("./routes/processText.js");
+const generateResultFromText = require("./routes/generateResultFromText.js");
+
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
 app.use(cors());
+app.use(fileUpload());
+
+app.use("/endpoints/convertFile", convertFileRoute);
+app.use("/endpoints/processText", processTextRoute);
+app.use("/endpoints/generateResultFromText", generateResultFromText);
 
 mongoose
   .connect(process.env.MONGO_URI, {
