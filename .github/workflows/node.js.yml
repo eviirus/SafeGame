@@ -1,29 +1,35 @@
-name: Node.js CI
-
+name: Node.js CI (Frontend + Server)
 on:
   push:
     branches: 
-      - master
+      - main
       - feature/**
   pull_request:
     branches:
-      - master
-
+      - main
+  workflow_dispatch:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run tests
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci
+      - name: Fix react-scripts permission
+        working-directory: frontend
+        run: chmod +x node_modules/.bin/react-scripts
+      - name: Run frontend tests
+        working-directory: frontend
+        run: npm test
+      - name: Install server dependencies
+        working-directory: server
+        run: npm ci
+      - name: Run server tests
+        working-directory: server
         run: npm test
