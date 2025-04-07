@@ -17,21 +17,20 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
+          
       - name: Install frontend dependencies
         working-directory: frontend
         run: npm install
-
-      - name: Fix react-scripts permission
-        working-directory: frontend
-        run: chmod +x node_modules/.bin/react-scripts
-
+        
       - name: Run frontend tests
         working-directory: frontend
         run: npm test
+        
       - name: Install server dependencies
         working-directory: server
-        run: npm ci
+        run: npm install
+        
       - name: Run server tests
         working-directory: server
         run: npm test
