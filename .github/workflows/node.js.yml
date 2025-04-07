@@ -22,6 +22,10 @@ jobs:
       - name: Install frontend dependencies
         working-directory: frontend
         run: npm install
+
+      - name: Fix react-scripts permission
+        working-directory: frontend
+        run: chmod +x node_modules/.bin/react-scripts
         
       - name: Run frontend tests
         working-directory: frontend
