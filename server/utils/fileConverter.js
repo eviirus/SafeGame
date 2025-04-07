@@ -25,7 +25,7 @@ async function convertFile(file) {
     }
 
     const text = await extractTextFromPDF(file.data);
-    return { success: true, data: text };
+    return { success: true, data: text, length: text.length };
   } catch (error) {
     return { success: false, error: error.message };
   }
