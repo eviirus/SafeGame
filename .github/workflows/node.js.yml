@@ -25,7 +25,7 @@ jobs:
           npm install
           npm install react-router-dom
 
-      - name: Fix react-scripts permission
+      - name: Fix react-scripts permission error
         working-directory: frontend
         run: chmod +x node_modules/.bin/react-scripts
         
@@ -37,6 +37,10 @@ jobs:
       - name: Install server dependencies
         working-directory: server
         run: npm install
+
+      - name: Fix permission error
+        working-directory: server
+        run: chmod -R 755 node_modules/.bin/jest
         
       - name: Run server tests
         working-directory: server
