@@ -38,9 +38,9 @@ jobs:
         working-directory: server
         run: npm install
 
-      - name: Fix permission error
+      - name: Fix Jest permission error
         working-directory: server
-        run: chmod -R 755 node_modules/.bin/jest
+        run: chmod +x node_modules/.bin/jest
         
       - name: Run server tests
         working-directory: server
