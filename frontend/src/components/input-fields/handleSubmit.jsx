@@ -54,9 +54,13 @@ const prepareTextInput = async (text) => {
       }
     );
 
-    return formattedText.data;
+    return formattedText.data.formattedText;
   } catch (error) {
-    alert("Įvyko klaida įkeliant tekstą į serverį");
+    if (error.response) {
+      alert(error.response.data.message);
+    } else {
+      alert("Įvyko klaida įkeliant tekstą į serverį");
+    }
 
     return null;
   }
@@ -108,7 +112,7 @@ const convertFile = async (formData) => {
       }
     );
 
-    return convertedText.data;
+    return convertedText.data.formattedText;
   } catch (error) {
     if (error.response) {
       alert(error.response.data.message);
@@ -143,6 +147,6 @@ const generateResultFromText = async (
       handleGeneratedResult(response.data);
     }
   } catch (error) {
-    alert("Įvyko klaida generuojant rezultatą");
+    alert("Įvyko klaida generuojant rezultatą. Bandykite vėliau");
   }
 };

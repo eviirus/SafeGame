@@ -86,4 +86,3 @@ async function generateResultFromText(text) {
 }
 
 module.exports = { generateResultFromText };
-

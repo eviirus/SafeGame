@@ -1,24 +1,27 @@
 const express = require("express");
 const router = express.Router();
 const { convertFile } = require("../utils/fileConverter.js");
-
-const MIN_INPUT_LENGTH = 1000;
+const { returnTextInputValue } = require("../utils/formatTextInput.js");
 
 router.post("/", async (req, res) => {
   const file = req.files.file;
 
   try {
     const result = await convertFile(file);
+    const finalResult = await returnTextInputValue(result.data);
 
-    if (result.data.length < MIN_INPUT_LENGTH) {
+    if (!finalResult.success) {
       return res.status(400).json({
         success: false,
-        message:
-          "Patikrinkite ar failą sudaro pilnas privatumo politikos tekstas",
+        message: finalResult.message,
+        reason: finalResult.errorMessage,
       });
     }
 
-    res.json(result);
+    return res.status(200).json({
+      success: true,
+      formattedText: finalResult.formattedText,
+    });
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
   }
