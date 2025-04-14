@@ -46,9 +46,8 @@ async function generateResultFromText(text) {
         "\n\nRespond only with 'true' or 'false' in the same order as the questions are listed.";
 
       const result = await model.generateContent(prompt, MAX_OUTPUT_TOKENS);
-      const response = await result.response.text();
+      const answerText = result.response.text().trim();
 
-      const answerText = response.trim();
       const answers = answerText
         .split(/\s*,\s*|\s+/)
         .map((answer) => answer.trim().toLowerCase());
@@ -81,7 +80,7 @@ async function generateResultFromText(text) {
     console.log("FINAL ANSWERS", finalAnswers.flat());
     return finalAnswers;
   } catch (error) {
-    return { success: false, error: error };
+    return { success: false, error: error.message };
   }
 }
 

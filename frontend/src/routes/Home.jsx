@@ -5,10 +5,12 @@ import Hero from "../components/hero/hero";
 import NavigationBar from "../components/navigation-bar/nav-bar";
 import GeneratedResultFields from "../components/generated-result-fields/generated-result-fields";
 import Footer from "../components/footer/footer";
+import LoadingSpinner from "../components/loading-spinner/loading-spinner";
 
 function Home() {
   const [resultReceived, setResultReceived] = useState(false);
   const [generatedResult, setGenratedResult] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleResultReceived = (status) => {
     setResultReceived(status);
@@ -52,7 +54,9 @@ function Home() {
       <Input
         handleResultReceived={handleResultReceived}
         handleGeneratedResult={handleGeneratedResult}
+        setIsLoading={setIsLoading}
       />
+      {isLoading && <LoadingSpinner />}
       <GeneratedResultFields
         isVisible={resultReceived}
         result={generatedResult}

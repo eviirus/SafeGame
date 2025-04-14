@@ -3,7 +3,7 @@ import "../input-fields/input-fields.css";
 import pdfImage from "../../assets/images/pdf-image.png";
 import { handleSubmit } from "./handleSubmit";
 
-function Input({ handleResultReceived, handleGeneratedResult }) {
+function Input({ handleResultReceived, handleGeneratedResult, setIsLoading }) {
   const [placeholder, setPlaceholder] = useState("Tekstą įklijuokite čia");
   const [activeButton, setActiveButton] = useState("text");
   const [inputValue, setInputValue] = useState("");
@@ -47,7 +47,8 @@ function Input({ handleResultReceived, handleGeneratedResult }) {
       file,
       inputType,
       handleResultReceived,
-      handleGeneratedResult
+      handleGeneratedResult,
+      setIsLoading
     );
   };
 
@@ -69,7 +70,7 @@ function Input({ handleResultReceived, handleGeneratedResult }) {
         <button
           type="button"
           data-input-type="link"
-          data-placeholder="Įkelkite nuorodą į privatumo politiką"
+          data-placeholder="Įkelkite nuorodą į privatumo politiką. Nuoroda turi prasidėti - https://"
           data-active={activeButton === "link" ? "true" : "false"}
           onClick={handleInputButtonClick}
         >

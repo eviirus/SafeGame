@@ -9,15 +9,15 @@ router.post("/", async (req, res) => {
     const response = await generateResultFromText(text);
 
     if (response.success === false) {
-      console.error("Error in response:", response.error);
       return res.status(500).json({
         success: false,
+        message: response.error,
       });
     }
 
     res.json(response);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: error.message });
   }
 });
 

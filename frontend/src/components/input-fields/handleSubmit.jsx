@@ -6,20 +6,28 @@ export const handleSubmit = (
   file,
   inputType,
   handleResultReceived,
-  handleGeneratedResult
+  handleGeneratedResult,
+  setIsLoading
 ) => {
   handleResultReceived(false);
   handleGeneratedResult([]);
+
   if (inputType === "text") {
-    handleTextInput(inputValue, handleResultReceived, handleGeneratedResult);
+    handleTextInput(
+      inputValue,
+      handleResultReceived,
+      handleGeneratedResult,
+      setIsLoading
+    );
   } else if (inputType === "link") {
-    handleLinkInput(inputValue);
+    handleLinkInput(inputValue, setIsLoading);
   } else if (inputType === "file") {
     handleFileInput(
       fileName,
       file,
       handleResultReceived,
-      handleGeneratedResult
+      handleGeneratedResult,
+      setIsLoading
     );
   }
 };
@@ -27,15 +35,19 @@ export const handleSubmit = (
 const handleTextInput = async (
   inputValue,
   handleResultReceived,
-  handleGeneratedResult
+  handleGeneratedResult,
+  setIsLoading
 ) => {
   const receivedFormattedText = await prepareTextInput(inputValue);
 
-  if (receivedFormattedText !== null)
+  console.log(receivedFormattedText);
+
+  if (receivedFormattedText !== null && receivedFormattedText !== undefined)
     generateResultFromText(
       receivedFormattedText,
       handleResultReceived,
-      handleGeneratedResult
+      handleGeneratedResult,
+      setIsLoading
     );
 };
 
@@ -72,7 +84,7 @@ const handleLinkInput = (inputValue) => {
   if (urlRegex.test(inputValue)) {
     console.log("Sending link to server");
   } else {
-    alert("Patikrinkite įvesta nuorodą");
+    alert("Įvesta neteisinga nuoroda");
   }
 };
 
@@ -80,7 +92,8 @@ const handleFileInput = async (
   fileName,
   file,
   handleResultReceived,
-  handleGeneratedResult
+  handleGeneratedResult,
+  setIsLoading
 ) => {
   const fileExtension = fileName.toLowerCase().split(".").pop();
 
@@ -96,9 +109,10 @@ const handleFileInput = async (
 
   if (receivedText !== null)
     generateResultFromText(
-      receivedText.data,
+      receivedText,
       handleResultReceived,
-      handleGeneratedResult
+      handleGeneratedResult,
+      setIsLoading
     );
 };
 
@@ -127,16 +141,19 @@ const convertFile = async (formData) => {
 const generateResultFromText = async (
   text,
   handleResultReceived,
-  handleGeneratedResult
+  handleGeneratedResult,
+  setIsLoading
 ) => {
   try {
+    setIsLoading(true);
+
     const response = await axios.post(
       "http://localhost:5000/endpoints/generateResultFromText",
       {
         text: text,
       }
     );
-
+    setIsLoading(false);
     if (response && response.data.success === false) {
       alert(
         "Įvyko netikėta klaida, bandykite pateikti privatumo politiką dar kartą."
@@ -147,6 +164,13 @@ const generateResultFromText = async (
       handleGeneratedResult(response.data);
     }
   } catch (error) {
-    alert("Įvyko klaida generuojant rezultatą. Bandykite vėliau");
+    setIsLoading(false);
+    if (error.response) {
+      alert(error.response.data.message);
+    } else {
+      alert("Įvyko klaida generuojant rezultatą. Bandykite vėliau");
+    }
+  } finally {
+    setIsLoading(false);
   }
 };
