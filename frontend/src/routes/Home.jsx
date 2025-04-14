@@ -6,6 +6,8 @@ import NavigationBar from "../components/navigation-bar/nav-bar";
 import GeneratedResultFields from "../components/generated-result-fields/generated-result-fields";
 import Footer from "../components/footer/footer";
 import LoadingSpinner from "../components/loading-spinner/loading-spinner";
+import QuestionsInput from "../components/questions-input/questions-input";
+import "../components/styles/homeComponentStyles.css";
 
 function Home() {
   const [resultReceived, setResultReceived] = useState(false);
@@ -51,11 +53,14 @@ function Home() {
       </Helmet>
       <NavigationBar />
       <Hero title={"Privatumo politikos analizavimo sistema"} />
-      <Input
-        handleResultReceived={handleResultReceived}
-        handleGeneratedResult={handleGeneratedResult}
-        setIsLoading={setIsLoading}
-      />
+      <div className="input-container">
+        <QuestionsInput />
+        <Input
+          handleResultReceived={handleResultReceived}
+          handleGeneratedResult={handleGeneratedResult}
+          setIsLoading={setIsLoading}
+        />
+      </div>
       {isLoading && <LoadingSpinner />}
       <GeneratedResultFields
         isVisible={resultReceived}
