@@ -73,11 +73,13 @@
 
 .input-fields .input-field textarea{
     min-height: 200px;
+    max-height: 400px;
 }
 
 .input-fields .input-field textarea:focus,
 .input-fields .input-field input:focus {
     border: none;
+    overflow-y: auto;
 }
 
 .input-fields .input-field .file-input-container{
