@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./questions-input.css";
 import { resultFieldElements } from "../generated-result-fields/resultFieldElements";
 
 function QuestionsInput() {
   const [visibleIndexes, setVisibleIndexes] = useState([]);
+  const [selectedCheckboxes, setSelectedCheckboxes] = useState({});
 
   const handleContentDisplay = (index) => {
     setVisibleIndexes((prevIndexes) =>
@@ -11,6 +12,24 @@ function QuestionsInput() {
         ? prevIndexes.filter((i) => i !== index)
         : [...prevIndexes, index]
     );
+  };
+
+  const handleCheckboxChange = (category, item) => {
+    setSelectedCheckboxes((prev) => {
+      const updated = { ...prev };
+
+      if (!updated[category]) {
+        updated[category] = [];
+      }
+
+      if (updated[category].includes(item)) {
+        updated[category] = updated[category].filter((i) => i !== item);
+      } else {
+        updated[category].push(item);
+      }
+
+      return updated;
+    });
   };
 
   return (
@@ -53,8 +72,19 @@ function QuestionsInput() {
                   element.items.map((item, subIndex) => {
                     return (
                       <div className="row" key={subIndex}>
-                        <input type="checkbox" id={item} name={item} />
-                        <label for={item}>{item}</label>
+                        <input
+                          type="checkbox"
+                          id={`${element.title}-${item}`}
+                          name={item}
+                          checked={
+                            selectedCheckboxes[element.title]?.includes(item) ||
+                            false
+                          }
+                          onChange={() =>
+                            handleCheckboxChange(element.title, item)
+                          }
+                        />
+                        <label htmlFor={item}>{item}</label>
                       </div>
                     );
                   })}
