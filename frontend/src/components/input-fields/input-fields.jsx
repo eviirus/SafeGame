@@ -3,7 +3,12 @@ import "../input-fields/input-fields.css";
 import pdfImage from "../../assets/images/pdf-image.png";
 import { handleSubmit } from "./handleSubmit";
 
-function Input({ handleResultReceived, handleGeneratedResult, setIsLoading }) {
+function Input({
+  handleResultReceived,
+  handleGeneratedResult,
+  setIsLoading,
+  selectedCheckboxes,
+}) {
   const [placeholder, setPlaceholder] = useState("Tekstą įklijuokite čia");
   const [activeButton, setActiveButton] = useState("text");
   const [inputValue, setInputValue] = useState("");
@@ -48,7 +53,8 @@ function Input({ handleResultReceived, handleGeneratedResult, setIsLoading }) {
       inputType,
       handleResultReceived,
       handleGeneratedResult,
-      setIsLoading
+      setIsLoading,
+      selectedCheckboxes
     );
   };
 

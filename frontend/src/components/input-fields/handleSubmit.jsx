@@ -7,47 +7,71 @@ export const handleSubmit = (
   inputType,
   handleResultReceived,
   handleGeneratedResult,
-  setIsLoading
+  setIsLoading,
+  selectedCheckboxes
 ) => {
   handleResultReceived(false);
   handleGeneratedResult([]);
+
+  const questionsFullfilled = checkQuestionsInput(selectedCheckboxes);
+  if (!questionsFullfilled) return;
 
   if (inputType === "text") {
     handleTextInput(
       inputValue,
       handleResultReceived,
       handleGeneratedResult,
-      setIsLoading
+      setIsLoading,
+      questionsFullfilled
     );
   } else if (inputType === "link") {
-    handleLinkInput(inputValue, setIsLoading);
+    handleLinkInput(inputValue, setIsLoading, questionsFullfilled);
   } else if (inputType === "file") {
     handleFileInput(
       fileName,
       file,
       handleResultReceived,
       handleGeneratedResult,
-      setIsLoading
+      setIsLoading,
+      questionsFullfilled
     );
   }
+};
+
+const checkQuestionsInput = (selectedCheckboxes) => {
+  const selected = Object.values(selectedCheckboxes)
+    .flat()
+    .filter((items) => items.metaname).length;
+
+  if (selected < 5) {
+    alert("Pasirinkite bent 5 klausimus iš pateiktų filtrų");
+    return false;
+  }
+
+  return Object.entries(selectedCheckboxes)
+    .filter(([_, items]) => items.length > 0)
+    .map(([category, items]) => ({
+      category,
+      items,
+    }));
 };
 
 const handleTextInput = async (
   inputValue,
   handleResultReceived,
   handleGeneratedResult,
-  setIsLoading
+  setIsLoading,
+  questionsFullfilled
 ) => {
   const receivedFormattedText = await prepareTextInput(inputValue);
-
-  console.log(receivedFormattedText);
 
   if (receivedFormattedText !== null && receivedFormattedText !== undefined)
     generateResultFromText(
       receivedFormattedText,
       handleResultReceived,
       handleGeneratedResult,
-      setIsLoading
+      setIsLoading,
+      questionsFullfilled
     );
 };
 
@@ -78,7 +102,7 @@ const prepareTextInput = async (text) => {
   }
 };
 
-const handleLinkInput = (inputValue) => {
+const handleLinkInput = (inputValue, setIsLoading, questionsFullfilled) => {
   const urlRegex = /^(https?|chrome):\/\/[^\s$.?#].[^\s]*$/gm;
 
   if (urlRegex.test(inputValue)) {
@@ -93,7 +117,8 @@ const handleFileInput = async (
   file,
   handleResultReceived,
   handleGeneratedResult,
-  setIsLoading
+  setIsLoading,
+  questionsFullfilled
 ) => {
   const fileExtension = fileName.toLowerCase().split(".").pop();
 
@@ -112,7 +137,8 @@ const handleFileInput = async (
       receivedText,
       handleResultReceived,
       handleGeneratedResult,
-      setIsLoading
+      setIsLoading,
+      questionsFullfilled
     );
 };
 
@@ -142,8 +168,10 @@ const generateResultFromText = async (
   text,
   handleResultReceived,
   handleGeneratedResult,
-  setIsLoading
+  setIsLoading,
+  questionsFullfilled
 ) => {
+  console.log(questionsFullfilled);
   try {
     setIsLoading(true);
 
@@ -151,6 +179,7 @@ const generateResultFromText = async (
       "http://localhost:5000/endpoints/generateResultFromText",
       {
         text: text,
+        questions: questionsFullfilled,
       }
     );
     setIsLoading(false);

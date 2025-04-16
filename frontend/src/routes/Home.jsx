@@ -11,15 +11,16 @@ import "../components/styles/homeComponentStyles.css";
 
 function Home() {
   const [resultReceived, setResultReceived] = useState(false);
-  const [generatedResult, setGenratedResult] = useState([]);
+  const [generatedResult, setGeneratedResult] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedCheckboxes, setSelectedCheckboxes] = useState({});
 
   const handleResultReceived = (status) => {
     setResultReceived(status);
   };
 
   const handleGeneratedResult = (result) => {
-    setGenratedResult(result);
+    setGeneratedResult(result);
   };
 
   useEffect(() => {
@@ -42,7 +43,6 @@ function Home() {
       const updatedHistory = [newHistoryEntry, ...existingHistory];
 
       localStorage.setItem("history", JSON.stringify(updatedHistory));
-      console.log(JSON.parse(localStorage.getItem("history")));
     }
   }, [resultReceived, generatedResult]);
 
@@ -54,11 +54,15 @@ function Home() {
       <NavigationBar />
       <Hero title={"Privatumo politikos analizavimo sistema"} />
       <div className="input-container">
-        <QuestionsInput />
+        <QuestionsInput
+          selectedCheckboxes={selectedCheckboxes}
+          setSelectedCheckboxes={setSelectedCheckboxes}
+        />
         <Input
           handleResultReceived={handleResultReceived}
           handleGeneratedResult={handleGeneratedResult}
           setIsLoading={setIsLoading}
+          selectedCheckboxes={selectedCheckboxes}
         />
       </div>
       {isLoading && <LoadingSpinner />}

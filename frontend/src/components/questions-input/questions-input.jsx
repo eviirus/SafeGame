@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./questions-input.css";
 import { resultFieldElements } from "../generated-result-fields/resultFieldElements";
 
-function QuestionsInput() {
+function QuestionsInput({ selectedCheckboxes, setSelectedCheckboxes }) {
   const [visibleIndexes, setVisibleIndexes] = useState([]);
-  const [selectedCheckboxes, setSelectedCheckboxes] = useState({});
 
   const handleContentDisplay = (index) => {
     setVisibleIndexes((prevIndexes) =>
@@ -14,7 +13,7 @@ function QuestionsInput() {
     );
   };
 
-  const handleCheckboxChange = (category, item) => {
+  const handleCheckboxChange = (category, items) => {
     setSelectedCheckboxes((prev) => {
       const updated = { ...prev };
 
@@ -22,12 +21,19 @@ function QuestionsInput() {
         updated[category] = [];
       }
 
-      if (updated[category].includes(item)) {
-        updated[category] = updated[category].filter((i) => i !== item);
+      const exists = updated[category].some(
+        (i) => i.metaname === items.metaname
+      );
+
+      if (exists) {
+        updated[category] = updated[category].filter(
+          (i) => i.metaname !== items.metaname
+        );
       } else {
-        updated[category].push(item);
+        updated[category].push(items);
       }
 
+      console.log(updated);
       return updated;
     });
   };
@@ -69,22 +75,23 @@ function QuestionsInput() {
                 }`}
               >
                 {visibleIndexes.includes(index) &&
-                  element.items.map((item, subIndex) => {
+                  element.items.map((items, subIndex) => {
                     return (
                       <div className="row" key={subIndex}>
                         <input
                           type="checkbox"
-                          id={`${element.title}-${item}`}
-                          name={item}
+                          id={`${element.title}-${items.name}`}
+                          name={items.name}
                           checked={
-                            selectedCheckboxes[element.title]?.includes(item) ||
-                            false
+                            selectedCheckboxes[element.title]?.some(
+                              (i) => i.metaname === items.metaname
+                            ) || false
                           }
                           onChange={() =>
-                            handleCheckboxChange(element.title, item)
+                            handleCheckboxChange(element.title, items)
                           }
                         />
-                        <label htmlFor={item}>{item}</label>
+                        <label htmlFor={items.name}>{items.name}</label>
                       </div>
                     );
                   })}
