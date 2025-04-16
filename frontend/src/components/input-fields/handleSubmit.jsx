@@ -171,7 +171,6 @@ const generateResultFromText = async (
   setIsLoading,
   questionsFullfilled
 ) => {
-  console.log(questionsFullfilled);
   try {
     setIsLoading(true);
 
@@ -191,6 +190,7 @@ const generateResultFromText = async (
     } else {
       handleResultReceived(true);
       handleGeneratedResult(response.data);
+      console.log(response.data);
     }
   } catch (error) {
     setIsLoading(false);

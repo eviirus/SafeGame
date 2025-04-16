@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./questions-input.css";
-import { resultFieldElements } from "../generated-result-fields/resultFieldElements";
+import { filterElements } from "./filterElements";
 
 function QuestionsInput({ selectedCheckboxes, setSelectedCheckboxes }) {
   const [visibleIndexes, setVisibleIndexes] = useState([]);
@@ -45,7 +45,7 @@ function QuestionsInput({ selectedCheckboxes, setSelectedCheckboxes }) {
         <p className="sub">Bent 5 iš bet kurios kategorijos</p>
       </div>
       <div className="column">
-        {resultFieldElements.map((element, index) => {
+        {filterElements.map((element, index) => {
           return (
             <div className="item" key={index}>
               <button type="button" onClick={() => handleContentDisplay(index)}>

@@ -21,7 +21,7 @@ const QUESTIONS = [
   "Health records",
   "Medical conditions or treatments",
   "Browsing history on the website or app",
-  "Interaction with ads or content ",
+  "Interaction with ads or content",
   "Social media interactions",
   "Information shared with affiliates, partners, or advertisers",
   "Data collection by third parties",
@@ -59,6 +59,9 @@ async function generateResultFromText(text) {
         while (answers.length < QUESTIONS.length) {
           answers.push("false");
         }
+      } else if (answers.length > QUESTIONS.length) {
+        console.warn("Too many answers returned, trimming extra ones");
+        answers.length = QUESTIONS.length;
       }
 
       answers.forEach((answer, index) => {

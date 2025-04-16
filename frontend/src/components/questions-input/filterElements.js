@@ -1,4 +1,4 @@
-export const resultFieldElements = [
+export const filterElements = [
   {
     title: "Asmeninė informacija",
     items: [

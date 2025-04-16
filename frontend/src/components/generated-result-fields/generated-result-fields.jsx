@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./generated-result-fields.css";
-import { resultFieldElements } from "./resultFieldElements";
 import okIcon from "../../assets/images/cross-good.svg";
 import badIcon from "../../assets/images/check-warning.svg";
 
@@ -15,32 +14,15 @@ function GeneratedResultFields({ isVisible, result }) {
     );
   };
 
-  const splitAnswers = () => {
-    let resultIndex = 0;
-    return resultFieldElements.map((element) => {
-      const numberOfItems = element.items.length;
-
-      const answersForSection = result.slice(
-        resultIndex,
-        resultIndex + numberOfItems
-      );
-
-      resultIndex += numberOfItems;
-      return answersForSection;
-    });
-  };
-
-  const splitResults = splitAnswers();
-
   return (
     <div className={`result-container ${isVisible ? "show" : ""}`}>
       <h2>Analizės rezultatas</h2>
       <div className="grid">
-        {resultFieldElements.map((element, index) => {
+        {result.map((element, index) => {
           return (
             <div className="item" key={index}>
               <button type="button" onClick={() => handleContentDisplay(index)}>
-                <span>{element.title}</span>
+                <span>{element.category}</span>
                 <div
                   className={`icon ${
                     visibleIndexes.includes(index) ? "rotate" : ""
@@ -68,17 +50,15 @@ function GeneratedResultFields({ isVisible, result }) {
               >
                 {visibleIndexes.includes(index) &&
                   element.items.map((item, subIndex) => {
-                    const answer = splitResults[index][subIndex]?.answer;
-
-                    const answerIcon = answer === "true" ? badIcon : okIcon;
+                    const answerIcon = item.answer === true ? badIcon : okIcon;
                     return (
                       <div className="row" key={subIndex}>
-                        <span>{item}</span>
+                        <span>{item.name}</span>
                         <span>
                           <img
                             src={answerIcon}
                             loading="lazy"
-                            alt={answer === "true" ? "Warning" : "Ok"}
+                            alt={item.answer === "true" ? "Warning" : "Ok"}
                           />
                         </span>
                       </div>
