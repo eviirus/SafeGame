@@ -1,12 +1,12 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import "../input-fields/input-fields.css";
 import pdfImage from "../../assets/images/pdf-image.png";
 import { handleSubmit } from "./handleSubmit";
+import LoadingSpinner from "../loading-spinner/loading-spinner";
 
 function Input({
   handleResultReceived,
   handleGeneratedResult,
-  setIsLoading,
   selectedCheckboxes,
 }) {
   const [placeholder, setPlaceholder] = useState("Tekstą įklijuokite čia");
@@ -15,6 +15,7 @@ function Input({
   const textareaRef = useRef(null);
   const [fileName, setFileName] = useState("");
   const [file, setFile] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleInputButtonClick = (event) => {
     const inputType = event.currentTarget.getAttribute("data-input-type");
@@ -46,19 +47,25 @@ function Input({
   };
 
   const onSubmit = (inputValue, fileName, file, inputType) => {
+    setIsLoading(true);
     handleSubmit(
       inputValue,
       fileName,
       file,
       inputType,
-      handleResultReceived,
-      handleGeneratedResult,
-      setIsLoading,
+      (result) => {
+        handleResultReceived(result);
+        setIsLoading(false);
+      },
+      (generatedResult) => {
+        handleGeneratedResult(generatedResult);
+      },
       selectedCheckboxes
     );
   };
 
   const isSubmitDisabled = !inputValue && !fileName;
+  const showSubmitButton = (inputValue || fileName) && !isLoading;
 
   return (
     <div className="input-fields">
@@ -132,7 +139,7 @@ function Input({
           />
         )}
       </div>
-      {(inputValue || fileName) && (
+      {showSubmitButton && (
         <button
           type="button"
           onClick={() => onSubmit(inputValue, fileName, file, activeButton)}
@@ -142,6 +149,7 @@ function Input({
           Pateikti
         </button>
       )}
+      {isLoading && <LoadingSpinner />}
     </div>
   );
 }

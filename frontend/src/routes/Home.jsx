@@ -5,14 +5,13 @@ import Hero from "../components/hero/hero";
 import NavigationBar from "../components/navigation-bar/nav-bar";
 import GeneratedResultFields from "../components/generated-result-fields/generated-result-fields";
 import Footer from "../components/footer/footer";
-import LoadingSpinner from "../components/loading-spinner/loading-spinner";
+
 import QuestionsInput from "../components/questions-input/questions-input";
 import "../components/styles/homeComponentStyles.css";
 
 function Home() {
   const [resultReceived, setResultReceived] = useState(false);
   const [generatedResult, setGeneratedResult] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [selectedCheckboxes, setSelectedCheckboxes] = useState({});
 
   const handleResultReceived = (status) => {
@@ -61,11 +60,9 @@ function Home() {
         <Input
           handleResultReceived={handleResultReceived}
           handleGeneratedResult={handleGeneratedResult}
-          setIsLoading={setIsLoading}
           selectedCheckboxes={selectedCheckboxes}
         />
       </div>
-      {isLoading && <LoadingSpinner />}
       <GeneratedResultFields
         isVisible={resultReceived}
         result={generatedResult}

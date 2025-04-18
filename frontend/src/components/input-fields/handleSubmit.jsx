@@ -7,12 +7,8 @@ export const handleSubmit = (
   inputType,
   handleResultReceived,
   handleGeneratedResult,
-  setIsLoading,
   selectedCheckboxes
 ) => {
-  handleResultReceived(false);
-  handleGeneratedResult([]);
-
   const questionsFullfilled = checkQuestionsInput(selectedCheckboxes);
   if (!questionsFullfilled) return;
 
@@ -21,18 +17,16 @@ export const handleSubmit = (
       inputValue,
       handleResultReceived,
       handleGeneratedResult,
-      setIsLoading,
       questionsFullfilled
     );
   } else if (inputType === "link") {
-    handleLinkInput(inputValue, setIsLoading, questionsFullfilled);
+    handleLinkInput(inputValue, questionsFullfilled);
   } else if (inputType === "file") {
     handleFileInput(
       fileName,
       file,
       handleResultReceived,
       handleGeneratedResult,
-      setIsLoading,
       questionsFullfilled
     );
   }
@@ -60,19 +54,21 @@ const handleTextInput = async (
   inputValue,
   handleResultReceived,
   handleGeneratedResult,
-  setIsLoading,
   questionsFullfilled
 ) => {
   const receivedFormattedText = await prepareTextInput(inputValue);
 
-  if (receivedFormattedText !== null && receivedFormattedText !== undefined)
+  if (receivedFormattedText !== null && receivedFormattedText !== undefined) {
     generateResultFromText(
       receivedFormattedText,
       handleResultReceived,
       handleGeneratedResult,
-      setIsLoading,
       questionsFullfilled
     );
+  } else {
+    handleResultReceived(false);
+    handleGeneratedResult([]);
+  }
 };
 
 const prepareTextInput = async (text) => {
@@ -102,7 +98,7 @@ const prepareTextInput = async (text) => {
   }
 };
 
-const handleLinkInput = (inputValue, setIsLoading, questionsFullfilled) => {
+const handleLinkInput = (inputValue, questionsFullfilled) => {
   const urlRegex = /^(https?|chrome):\/\/[^\s$.?#].[^\s]*$/gm;
 
   if (urlRegex.test(inputValue)) {
@@ -117,7 +113,6 @@ const handleFileInput = async (
   file,
   handleResultReceived,
   handleGeneratedResult,
-  setIsLoading,
   questionsFullfilled
 ) => {
   const fileExtension = fileName.toLowerCase().split(".").pop();
@@ -132,14 +127,17 @@ const handleFileInput = async (
 
   const receivedText = await convertFile(formData);
 
-  if (receivedText !== null)
+  if (receivedText !== null) {
     generateResultFromText(
       receivedText,
       handleResultReceived,
       handleGeneratedResult,
-      setIsLoading,
       questionsFullfilled
     );
+  } else {
+    handleResultReceived(false);
+    handleGeneratedResult([]);
+  }
 };
 
 const convertFile = async (formData) => {
@@ -168,12 +166,9 @@ const generateResultFromText = async (
   text,
   handleResultReceived,
   handleGeneratedResult,
-  setIsLoading,
   questionsFullfilled
 ) => {
   try {
-    setIsLoading(true);
-
     const response = await axios.post(
       "http://localhost:5000/endpoints/generateResultFromText",
       {
@@ -181,7 +176,7 @@ const generateResultFromText = async (
         questions: questionsFullfilled,
       }
     );
-    setIsLoading(false);
+
     if (response && response.data.success === false) {
       alert(
         "Įvyko netikėta klaida, bandykite pateikti privatumo politiką dar kartą."
@@ -193,13 +188,13 @@ const generateResultFromText = async (
       console.log(response.data);
     }
   } catch (error) {
-    setIsLoading(false);
+    handleResultReceived(false);
+    handleGeneratedResult([]);
+
     if (error.response) {
       alert(error.response.data.message);
     } else {
       alert("Įvyko klaida generuojant rezultatą. Bandykite vėliau");
     }
-  } finally {
-    setIsLoading(false);
   }
 };
