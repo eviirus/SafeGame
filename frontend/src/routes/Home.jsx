@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Helmet } from "react-helmet";
 import Input from "../components/input-fields/input-fields";
 import Hero from "../components/hero/hero";
@@ -13,6 +13,7 @@ function Home() {
   const [resultReceived, setResultReceived] = useState(false);
   const [generatedResult, setGeneratedResult] = useState([]);
   const [selectedCheckboxes, setSelectedCheckboxes] = useState({});
+  const resultSectionRef = useRef(null);
 
   const handleResultReceived = (status) => {
     setResultReceived(status);
@@ -45,6 +46,21 @@ function Home() {
     }
   }, [resultReceived, generatedResult]);
 
+  useEffect(() => {
+    if (
+      resultReceived &&
+      generatedResult.length > 0 &&
+      resultSectionRef.current
+    ) {
+      setTimeout(() => {
+        resultSectionRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }, 100);
+    }
+  }, [resultReceived, generatedResult]);
+
   return (
     <>
       <Helmet>
@@ -63,10 +79,12 @@ function Home() {
           selectedCheckboxes={selectedCheckboxes}
         />
       </div>
-      <GeneratedResultFields
-        isVisible={resultReceived}
-        result={generatedResult}
-      />
+      <div ref={resultSectionRef}>
+        <GeneratedResultFields
+          isVisible={resultReceived}
+          result={generatedResult}
+        />
+      </div>
       <Footer />
     </>
   );

@@ -15,7 +15,7 @@ function GeneratedResultFields({ isVisible, result }) {
   };
 
   return (
-    <div className={`result-container ${isVisible ? "show" : ""}`}>
+    <div className={`result-container ${isVisible ? "show" : ""}`} id="results">
       <h2>Analizės rezultatas</h2>
       <div className="grid">
         {result.map((element, index) => {
