@@ -75,7 +75,7 @@ async function generateResultFromText(text) {
 
     const finalAnswers = answerCounts.map(({ true: trueCount }, index) => {
       return {
-        question: QUESTIONS[index],
+        metaname: QUESTIONS[index],
         answer: trueCount !== 0 ? "true" : "false",
       };
     });
