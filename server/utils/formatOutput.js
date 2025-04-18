@@ -3,12 +3,17 @@ async function formatOutput(questions, answers) {
     const updatedQuestions = questions.map((questionsCategory) => {
       const updatedItems = questionsCategory.items.map((item) => {
         const matchingAnswer = answers.find(
-          (a) => a.question === item.metaname
+          (a) => a.metaname === item.metaname
         );
 
         return {
           ...item,
-          answer: matchingAnswer ? matchingAnswer.answer === "true" : false,
+          answer: matchingAnswer
+            ? typeof matchingAnswer.answer === "boolean"
+              ? matchingAnswer.answer
+              : matchingAnswer.answer === "true" ||
+                matchingAnswer.answer === true
+            : false,
         };
       });
 
