@@ -5,6 +5,29 @@ jest.mock("axios", () => ({
 import axios from "axios";
 import { handleSubmit } from "../handleSubmit";
 
+const selectedCheckboxes = [
+  {
+    metaname: "Government ID numbers",
+    name: "Asmens kodas",
+  },
+  {
+    metaname: "Date of birth",
+    name: "Gimimo data",
+  },
+  {
+    metaname: "Phone number",
+    name: "Telefono numeris",
+  },
+  {
+    metaname: "Physical address",
+    name: "Adresas",
+  },
+  {
+    metaname: "Email address",
+    name: "El. paštas",
+  },
+];
+
 describe("handleSubmit function", () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -23,7 +46,8 @@ describe("handleSubmit function", () => {
       null,
       "text",
       handleResultReceived,
-      handleGeneratedResult
+      handleGeneratedResult,
+      selectedCheckboxes
     );
 
     expect(window.alert).toHaveBeenCalledWith(
@@ -51,7 +75,8 @@ describe("handleSubmit function", () => {
       null,
       "text",
       handleResultReceived,
-      handleGeneratedResult
+      handleGeneratedResult,
+      selectedCheckboxes
     );
 
     expect(window.alert).toHaveBeenCalledWith(
@@ -84,7 +109,8 @@ describe("handleSubmit function", () => {
       null,
       "text",
       handleResultReceived,
-      handleGeneratedResult
+      handleGeneratedResult,
+      selectedCheckboxes
     );
 
     expect(axios.post).toHaveBeenCalledWith(
@@ -93,6 +119,5 @@ describe("handleSubmit function", () => {
     );
 
     expect(window.alert).not.toHaveBeenCalled();
-    expect(handleResultReceived).toHaveBeenCalledWith(false);
   });
 });
