@@ -1,6 +1,6 @@
 const MIN_INPUT_LENGTH = 1000;
-const MIN_WORD_COUNT = 500;
-const MIN_UNIQUE_WORD_COUNT = 250;
+const MIN_WORD_COUNT = 300;
+const MIN_UNIQUE_WORD_COUNT = 150;
 
 async function formatTextInput(text) {
   const formattedText = text.replace(/\s+/g, " ").trim();
