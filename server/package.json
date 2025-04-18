@@ -10,6 +10,7 @@
     "multer": "^1.4.5-lts.1",
     "openai": "^4.89.1",
     "pdfjs-dist": "^2.10.377",
+    "string-similarity": "^4.0.4",
     "supertest": "^7.0.0"
   },
   "scripts": {
