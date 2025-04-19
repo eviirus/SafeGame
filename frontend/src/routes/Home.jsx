@@ -6,7 +6,6 @@ import NavigationBar from "../components/navigation-bar/nav-bar";
 import GeneratedResultFields from "../components/generated-result-fields/generated-result-fields";
 import DownloadPdf from "../components/download-pdf/download-pdf";
 import Footer from "../components/footer/footer";
-import Error from "../components/error-alert/error-alert";
 
 import QuestionsInput from "../components/questions-input/questions-input";
 import "../components/styles/homeComponentStyles.css";
@@ -80,7 +79,6 @@ function Home() {
       </Helmet>
       <NavigationBar />
       <Hero title={"Privatumo politikos analizavimo sistema"} />
-      <Error message="klaidos pranesimas klaidos pranesimas" />
       <div className="input-container">
         <QuestionsInput
           selectedCheckboxes={selectedCheckboxes}

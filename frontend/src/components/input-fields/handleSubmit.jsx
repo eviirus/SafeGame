@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export const handleSubmit = (
   inputValue,
@@ -49,7 +50,7 @@ const checkQuestionsInput = (
     .filter((items) => items.metaname).length;
 
   if (selected < 5) {
-    alert("Pasirinkite bent 5 klausimus iš pateiktų filtrų");
+    toast.error("Pasirinkite bent 5 klausimus iš pateiktų filtrų");
     handleResultReceived(false);
     handleGeneratedResult([]);
     return false;
@@ -90,7 +91,7 @@ const prepareTextInput = async (text) => {
   const MIN_INPUT_LENGTH = 1000;
 
   if (text.length <= MIN_INPUT_LENGTH) {
-    alert("Patikrinkite ar įklijavote pilną privatumo politikos tekstą");
+    toast.error("Patikrinkite ar įklijavote pilną privatumo politikos tekstą");
     return;
   }
   try {
@@ -104,9 +105,9 @@ const prepareTextInput = async (text) => {
     return formattedText.data.formattedText;
   } catch (error) {
     if (error.response) {
-      alert(error.response.data.message);
+      toast.error(error.response.data.message);
     } else {
-      alert("Įvyko klaida įkeliant tekstą į serverį");
+      toast.error("Įvyko klaida įkeliant tekstą į serverį");
     }
 
     return null;
@@ -119,7 +120,7 @@ const handleLinkInput = (inputValue, questionsFullfilled, setPolicyTitle) => {
   if (urlRegex.test(inputValue)) {
     console.log("Sending link to server");
   } else {
-    alert("Įvesta neteisinga nuoroda");
+    toast.error("Įvesta neteisinga nuoroda");
   }
 };
 
@@ -134,7 +135,7 @@ const handleFileInput = async (
   const fileExtension = fileName.toLowerCase().split(".").pop();
 
   if (fileExtension !== "pdf") {
-    alert("Tik .pdf failai yra leidžiami");
+    toast.error("Tik .pdf failai yra leidžiami");
     return;
   }
 
@@ -170,9 +171,9 @@ const convertFile = async (formData) => {
     return convertedText.data.formattedText;
   } catch (error) {
     if (error.response) {
-      alert(error.response.data.message);
+      toast.error(error.response.data.message);
     } else {
-      alert("Įvyko klaida įkeliant failą į serverį");
+      toast.error("Įvyko klaida įkeliant failą į serverį");
     }
 
     return null;
@@ -196,7 +197,7 @@ const generateResultFromText = async (
     );
 
     if (response && response.data.success === false) {
-      alert(
+      toast.error(
         "Įvyko netikėta klaida, bandykite pateikti privatumo politiką dar kartą."
       );
       handleResultReceived(false);
@@ -211,9 +212,9 @@ const generateResultFromText = async (
     handleGeneratedResult([]);
 
     if (error.response) {
-      alert(error.response.data.message);
+      toast.error(error.response.data.message);
     } else {
-      alert("Įvyko klaida generuojant rezultatą. Bandykite vėliau");
+      toast.error("Įvyko klaida generuojant rezultatą. Bandykite vėliau");
     }
   }
 };

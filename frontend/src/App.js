@@ -4,6 +4,8 @@ import Home from "./routes/Home";
 import History from "./routes/History";
 import Form from "./routes/Form";
 import HistoryViewElement from "./routes/HistoryViewElement";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -23,6 +25,7 @@ function App() {
           element={<HistoryViewElement />}
         />
       </Routes>
+      <ToastContainer />
     </div>
   );
 }
