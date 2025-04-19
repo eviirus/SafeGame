@@ -2,8 +2,15 @@ jest.mock("axios", () => ({
   post: jest.fn(),
 }));
 
+jest.mock("react-toastify", () => ({
+  toast: {
+    error: jest.fn(),
+  },
+}));
+
 import axios from "axios";
 import { handleSubmit } from "../handleSubmit";
+import { toast } from "react-toastify";
 
 const selectedCheckboxes = [
   {
@@ -31,7 +38,6 @@ const selectedCheckboxes = [
 describe("handleSubmit function", () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    window.alert = jest.fn();
   });
 
   it("makes a request to processText with char count 999", async () => {
@@ -50,7 +56,7 @@ describe("handleSubmit function", () => {
       selectedCheckboxes
     );
 
-    expect(window.alert).toHaveBeenCalledWith(
+    expect(toast.error).toHaveBeenCalledWith(
       "Patikrinkite ar įklijavote pilną privatumo politikos tekstą"
     );
 
@@ -79,7 +85,7 @@ describe("handleSubmit function", () => {
       selectedCheckboxes
     );
 
-    expect(window.alert).toHaveBeenCalledWith(
+    expect(toast.error).toHaveBeenCalledWith(
       "Patikrinkite ar įklijavote pilną privatumo politikos tekstą"
     );
 
@@ -118,6 +124,6 @@ describe("handleSubmit function", () => {
       { text: mockText }
     );
 
-    expect(window.alert).not.toHaveBeenCalled();
+    expect(toast.error).not.toHaveBeenCalled();
   });
 });
