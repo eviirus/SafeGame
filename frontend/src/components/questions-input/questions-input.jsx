@@ -32,8 +32,6 @@ function QuestionsInput({ selectedCheckboxes, setSelectedCheckboxes }) {
       } else {
         updated[category].push(items);
       }
-
-      console.log(updated);
       return updated;
     });
   };
