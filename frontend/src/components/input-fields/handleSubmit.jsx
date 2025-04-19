@@ -7,7 +7,8 @@ export const handleSubmit = (
   inputType,
   handleResultReceived,
   handleGeneratedResult,
-  selectedCheckboxes
+  selectedCheckboxes,
+  setPolicyTitle
 ) => {
   const questionsFullfilled = checkQuestionsInput(
     selectedCheckboxes,
@@ -21,17 +22,19 @@ export const handleSubmit = (
       inputValue,
       handleResultReceived,
       handleGeneratedResult,
-      questionsFullfilled
+      questionsFullfilled,
+      setPolicyTitle
     );
   } else if (inputType === "link") {
-    handleLinkInput(inputValue, questionsFullfilled);
+    handleLinkInput(inputValue, questionsFullfilled, setPolicyTitle);
   } else if (inputType === "file") {
     handleFileInput(
       fileName,
       file,
       handleResultReceived,
       handleGeneratedResult,
-      questionsFullfilled
+      questionsFullfilled,
+      setPolicyTitle
     );
   }
 };
@@ -64,7 +67,8 @@ const handleTextInput = async (
   inputValue,
   handleResultReceived,
   handleGeneratedResult,
-  questionsFullfilled
+  questionsFullfilled,
+  setPolicyTitle
 ) => {
   const receivedFormattedText = await prepareTextInput(inputValue);
 
@@ -73,7 +77,8 @@ const handleTextInput = async (
       receivedFormattedText,
       handleResultReceived,
       handleGeneratedResult,
-      questionsFullfilled
+      questionsFullfilled,
+      setPolicyTitle
     );
   } else {
     handleResultReceived(false);
@@ -108,7 +113,7 @@ const prepareTextInput = async (text) => {
   }
 };
 
-const handleLinkInput = (inputValue, questionsFullfilled) => {
+const handleLinkInput = (inputValue, questionsFullfilled, setPolicyTitle) => {
   const urlRegex = /^(https?|chrome):\/\/[^\s$.?#].[^\s]*$/gm;
 
   if (urlRegex.test(inputValue)) {
@@ -123,7 +128,8 @@ const handleFileInput = async (
   file,
   handleResultReceived,
   handleGeneratedResult,
-  questionsFullfilled
+  questionsFullfilled,
+  setPolicyTitle
 ) => {
   const fileExtension = fileName.toLowerCase().split(".").pop();
 
@@ -142,7 +148,8 @@ const handleFileInput = async (
       receivedText,
       handleResultReceived,
       handleGeneratedResult,
-      questionsFullfilled
+      questionsFullfilled,
+      setPolicyTitle
     );
   } else {
     handleResultReceived(false);
@@ -176,7 +183,8 @@ const generateResultFromText = async (
   text,
   handleResultReceived,
   handleGeneratedResult,
-  questionsFullfilled
+  questionsFullfilled,
+  setPolicyTitle
 ) => {
   try {
     const response = await axios.post(
@@ -195,7 +203,8 @@ const generateResultFromText = async (
     } else {
       handleResultReceived(true);
       handleGeneratedResult(response.data);
-      console.log(response.data);
+
+      setPolicyTitle(text.slice(0, 47) + "...");
     }
   } catch (error) {
     handleResultReceived(false);

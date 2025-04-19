@@ -4,33 +4,11 @@ import pdfMake from "pdfmake/build/pdfmake";
 import * as pdfFonts from "pdfmake/build/vfs_fonts";
 
 pdfMake.vfs = pdfFonts.default.vfs;
-
-const badIcon =
-  "http://localhost:3000/static/media/check-warning.34318c2601dee3edd8f29b465d9263b3.svg";
-const okIcon =
-  "http://localhost:3000/static/media/cross-good.a5af70085178dc2347df0f41363f3d38.svg";
-
-function DownloadPdf({ isVisible, result }) {
-  const date = () => {
-    return new Date().toLocaleDateString("lt-LT", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-    });
-  };
-
-  const time = () => {
-    return new Date().toLocaleTimeString("lt-LT", {
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-    });
-  };
-
+function DownloadPdf({ isVisible, result, policyTitle, date, time }) {
   const generatePdf = async () => {
     const content = [
       {
-        text: `Analizės rezultatas ${date()} ${time()}`,
+        text: `Analizės rezultatas \n ${policyTitle} \n ${date} ${time}`,
         style: "header",
         margin: [0, 0, 0, 10],
       },
@@ -89,7 +67,7 @@ function DownloadPdf({ isVisible, result }) {
 
     pdfMake
       .createPdf(docDefinition)
-      .download(`analizes rezultatas ${date()} ${time()}.pdf`);
+      .download(`pp-analizes-rezultatas ${date} ${time}.pdf`);
   };
   return (
     <div className={`download-pdf ${isVisible ? "show" : ""}`}>

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import GeneratedResultFields from "../../generated-result-fields/generated-result-fields";
+import DownloadPdf from "../../download-pdf/download-pdf";
 import "./view-element.css";
 
 function ViewElement() {
-  const { date, time } = useParams();
+  const { title, date, time } = useParams();
   const [result, setResult] = useState([]);
 
   useEffect(() => {
@@ -21,8 +22,15 @@ function ViewElement() {
 
   return (
     <div className="history-element">
-      <h2 className="pp-title">Privatumo politikos pavadinimas</h2>
+      <h2 className="pp-title">{title}</h2>
       <GeneratedResultFields isVisible={true} result={result} />
+      <DownloadPdf
+        isVisible={true}
+        result={result}
+        policyTitle={title}
+        date={date}
+        time={time}
+      />
     </div>
   );
 }

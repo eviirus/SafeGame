@@ -8,6 +8,7 @@ function Input({
   handleResultReceived,
   handleGeneratedResult,
   selectedCheckboxes,
+  setPolicyTitle,
 }) {
   const [placeholder, setPlaceholder] = useState("Tekstą įklijuokite čia");
   const [activeButton, setActiveButton] = useState("text");
@@ -60,7 +61,8 @@ function Input({
       (generatedResult) => {
         handleGeneratedResult(generatedResult);
       },
-      selectedCheckboxes
+      selectedCheckboxes,
+      setPolicyTitle
     );
   };
 

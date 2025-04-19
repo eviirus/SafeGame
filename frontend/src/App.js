@@ -18,7 +18,10 @@ function App() {
         <Route path="/forma/" element={<Form />} />
       </Routes>
       <Routes>
-        <Route path="/istorija/:date/:time" element={<HistoryViewElement />} />
+        <Route
+          path="/istorija/:title/:date/:time"
+          element={<HistoryViewElement />}
+        />
       </Routes>
     </div>
   );

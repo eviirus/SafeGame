@@ -14,6 +14,7 @@ function Home() {
   const [resultReceived, setResultReceived] = useState(false);
   const [generatedResult, setGeneratedResult] = useState([]);
   const [selectedCheckboxes, setSelectedCheckboxes] = useState({});
+  const [policyTitle, setPolicyTitle] = useState("");
   const resultSectionRef = useRef(null);
 
   const handleResultReceived = (status) => {
@@ -24,19 +25,28 @@ function Home() {
     setGeneratedResult(result);
   };
 
+  const date = () => {
+    return new Date().toLocaleDateString("lt-LT", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    });
+  };
+
+  const time = () => {
+    return new Date().toLocaleTimeString("lt-LT", {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
+  };
+
   useEffect(() => {
     if (resultReceived && generatedResult.length > 0) {
       const newHistoryEntry = {
-        date: new Date().toLocaleDateString("lt-LT", {
-          year: "numeric",
-          month: "2-digit",
-          day: "2-digit",
-        }),
-        time: new Date().toLocaleTimeString("lt-LT", {
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit",
-        }),
+        title: policyTitle,
+        date: date(),
+        time: time(),
         result: generatedResult,
       };
 
@@ -78,6 +88,7 @@ function Home() {
           handleResultReceived={handleResultReceived}
           handleGeneratedResult={handleGeneratedResult}
           selectedCheckboxes={selectedCheckboxes}
+          setPolicyTitle={setPolicyTitle}
         />
       </div>
       <div ref={resultSectionRef}>
@@ -86,7 +97,13 @@ function Home() {
           result={generatedResult}
         />
       </div>
-      <DownloadPdf isVisible={resultReceived} result={generatedResult} />
+      <DownloadPdf
+        isVisible={resultReceived}
+        result={generatedResult}
+        policyTitle={policyTitle}
+        date={date()}
+        time={time()}
+      />
       <Footer />
     </>
   );
