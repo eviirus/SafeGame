@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef } from "react";
 import "../input-fields/input-fields.css";
 import pdfImage from "../../assets/images/pdf-image.png";
 import { handleSubmit } from "./handleSubmit";

@@ -19,6 +19,7 @@
     "cross-env": "^7.0.3",
     "http-proxy-middleware": "^3.0.3",
     "jest": "^27.5.1",
+    "pdfmake": "^0.2.18",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-helmet": "^6.1.0",

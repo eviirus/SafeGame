@@ -9,7 +9,11 @@ export const handleSubmit = (
   handleGeneratedResult,
   selectedCheckboxes
 ) => {
-  const questionsFullfilled = checkQuestionsInput(selectedCheckboxes);
+  const questionsFullfilled = checkQuestionsInput(
+    selectedCheckboxes,
+    handleResultReceived,
+    handleGeneratedResult
+  );
   if (!questionsFullfilled) return;
 
   if (inputType === "text") {
@@ -32,13 +36,19 @@ export const handleSubmit = (
   }
 };
 
-const checkQuestionsInput = (selectedCheckboxes) => {
+const checkQuestionsInput = (
+  selectedCheckboxes,
+  handleResultReceived,
+  handleGeneratedResult
+) => {
   const selected = Object.values(selectedCheckboxes)
     .flat()
     .filter((items) => items.metaname).length;
 
   if (selected < 5) {
     alert("Pasirinkite bent 5 klausimus iš pateiktų filtrų");
+    handleResultReceived(false);
+    handleGeneratedResult([]);
     return false;
   }
 

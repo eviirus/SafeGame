@@ -1,0 +1,39 @@
+.download-pdf{
+    display: none;
+    width: 100%;
+    margin-top: 30px;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 20px;
+}
+
+.download-pdf.show{
+    display: flex;
+}
+
+.download-pdf h3{
+    font-size: 21px;
+    font-weight: 400;
+    color: #000;
+    margin: 0;
+}
+
+.download-pdf button{
+    border: 3px solid var(--primary-color);
+    background-color: transparent;
+    font-family: Inter, sans-serif;
+    color: var(--primary-color);
+    padding: 12px 10px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left: auto;
+}
+
+.download-pdf button:hover{
+    background-color: var(--primary-color);
+    color: #fff;
+    border: 3px solid transparent;
+}

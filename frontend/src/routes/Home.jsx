@@ -4,6 +4,7 @@ import Input from "../components/input-fields/input-fields";
 import Hero from "../components/hero/hero";
 import NavigationBar from "../components/navigation-bar/nav-bar";
 import GeneratedResultFields from "../components/generated-result-fields/generated-result-fields";
+import DownloadPdf from "../components/download-pdf/download-pdf";
 import Footer from "../components/footer/footer";
 
 import QuestionsInput from "../components/questions-input/questions-input";
@@ -85,6 +86,7 @@ function Home() {
           result={generatedResult}
         />
       </div>
+      <DownloadPdf isVisible={resultReceived} result={generatedResult} />
       <Footer />
     </>
   );
