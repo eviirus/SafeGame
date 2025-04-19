@@ -8,7 +8,7 @@ function NavigationBar() {
     <nav className="navigation-bar">
       <div className="items">
         {location.pathname === "/" ? null : (
-          <a href="/" title="Pagrindinis">
+          <a href="/" title="Pagrindinis" className="fill">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="35px"
@@ -26,7 +26,7 @@ function NavigationBar() {
           </a>
         )}
         {location.pathname !== "/istorija/" && (
-          <a href="/istorija/" title="Istorija">
+          <a href="/istorija/" title="Istorija" className="fill">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="35px"
@@ -41,6 +41,25 @@ function NavigationBar() {
               <path
                 d="M12 5C11.4477 5 11 5.44771 11 6V12.4667C11 12.4667 11 12.7274 11.1267 12.9235C11.2115 13.0898 11.3437 13.2344 11.5174 13.3346L16.1372 16.0019C16.6155 16.278 17.2271 16.1141 17.5032 15.6358C17.7793 15.1575 17.6155 14.546 17.1372 14.2698L13 11.8812V6C13 5.44772 12.5523 5 12 5Z"
                 fill="#000"
+              />
+            </svg>
+          </a>
+        )}
+        {location.pathname !== "/forma/" && (
+          <a href="/forma/" title="Palikite atsiliepimą" className="noFill">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="35px"
+              height="35px"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path
+                d="M15.4998 5.50067L18.3282 8.3291M13 21H21M3 21.0004L3.04745 20.6683C3.21536 19.4929 3.29932 18.9052 3.49029 18.3565C3.65975 17.8697 3.89124 17.4067 4.17906 16.979C4.50341 16.497 4.92319 16.0772 5.76274 15.2377L17.4107 3.58969C18.1918 2.80865 19.4581 2.80864 20.2392 3.58969C21.0202 4.37074 21.0202 5.63707 20.2392 6.41812L8.37744 18.2798C7.61579 19.0415 7.23497 19.4223 6.8012 19.7252C6.41618 19.994 6.00093 20.2167 5.56398 20.3887C5.07171 20.5824 4.54375 20.6889 3.48793 20.902L3 21.0004Z"
+                stroke="#000000"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           </a>
