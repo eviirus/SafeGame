@@ -3,7 +3,7 @@ const router = express.Router();
 const Review = require("../models/Reviews");
 
 router.post("/", async (req, res) => {
-  const { starRating, review } = req.body;
+  const { starRating, name, review } = req.body;
 
   try {
     if (!starRating) {
@@ -12,6 +12,7 @@ router.post("/", async (req, res) => {
 
     const newReview = new Review({
       starRating: starRating,
+      name: name,
       review: review,
     });
 
