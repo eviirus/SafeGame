@@ -1,0 +1,102 @@
+.all-reviews {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.all-reviews h2 {
+  font-size: 26px;
+  color: #000;
+  font-weight: 400;
+  margin: 0;
+}
+
+.all-reviews .reviews {
+  max-height: 1000px;
+  overflow-y: auto;
+}
+
+.all-reviews .reviews::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.all-reviews .reviews::-webkit-scrollbar-thumb {
+  background-color: #cecece;
+}
+
+.all-reviews .reviews::-webkit-scrollbar-button {
+  display: none;
+}
+
+.all-reviews .item {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.all-reviews .item .heading {
+  width: 100%;
+  display: inline-flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+}
+
+.all-reviews .item .heading p {
+  font-size: 16px;
+  font-weight: 400;
+  margin: 0;
+  color: #000;
+}
+
+.all-reviews .item .heading span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  font-size: 16px;
+  font-weight: 400;
+  color: #000;
+}
+
+.all-reviews .item .heading span svg {
+  fill: var(--primary-color);
+}
+
+.all-reviews .item .heading span svg path {
+  stroke: none;
+}
+
+.all-reviews .item .content {
+  max-height: 100px;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.all-reviews .item .content::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.all-reviews .item .content::-webkit-scrollbar-thumb {
+  background-color: #cecece;
+}
+
+.all-reviews .item .content::-webkit-scrollbar-button {
+  display: none;
+}
+
+.all-reviews .item .content p {
+  font-size: 16px;
+  font-weight: 400;
+  margin: 0;
+  color: #585858;
+}
+
+.all-reviews .item .separator {
+  width: 100%;
+  height: 1px;
+  background-color: #cecece;
+}

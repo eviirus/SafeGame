@@ -1,0 +1,12 @@
+.reviews-section {
+  display: grid;
+  grid-template-columns: 1fr 500px;
+  box-sizing: border-box;
+  gap: 30px;
+}
+@media (max-width: 925px) {
+  .reviews-section {
+    display: flex;
+    flex-direction: column;
+  }
+}
