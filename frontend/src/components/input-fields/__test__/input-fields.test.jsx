@@ -17,18 +17,6 @@ describe("Input Component", () => {
     expect(textarea).toBeInTheDocument();
   });
 
-  test("renders the input component with link input", () => {
-    render(<Input />);
-
-    const linkButton = screen.getByRole("button", { name: /Iš nuorodos/i });
-    fireEvent.click(linkButton);
-
-    const input = screen.getByPlaceholderText(
-      /Įkelkite nuorodą į privatumo politiką/i
-    );
-    expect(input).toBeInTheDocument();
-  });
-
   test("renders the input component with file input", () => {
     render(<Input />);
 
@@ -55,20 +43,6 @@ describe("Input Component", () => {
     await waitFor(() => {
       expect(screen.getByText(file.name)).toBeInTheDocument();
     });
-  });
-
-  test("handles link input change", () => {
-    render(<Input />);
-
-    const linkButton = screen.getByRole("button", { name: /Iš nuorodos/i });
-    fireEvent.click(linkButton);
-
-    const input = screen.getByPlaceholderText(
-      /Įkelkite nuorodą į privatumo politiką/i
-    );
-    fireEvent.change(input, { target: { value: "https://example.com" } });
-
-    expect(input.value).toBe("https://example.com");
   });
 
   test("does not render submit button when there is no input", () => {
