@@ -26,8 +26,6 @@ export const handleSubmit = (
       questionsFullfilled,
       setPolicyTitle
     );
-  } else if (inputType === "link") {
-    handleLinkInput(inputValue, questionsFullfilled, setPolicyTitle);
   } else if (inputType === "file") {
     handleFileInput(
       fileName,
@@ -114,16 +112,6 @@ const prepareTextInput = async (text) => {
   }
 };
 
-const handleLinkInput = (inputValue, questionsFullfilled, setPolicyTitle) => {
-  const urlRegex = /^(https?|chrome):\/\/[^\s$.?#].[^\s]*$/gm;
-
-  if (urlRegex.test(inputValue)) {
-    console.log("Sending link to server");
-  } else {
-    toast.error("Įvesta neteisinga nuoroda");
-  }
-};
-
 const handleFileInput = async (
   fileName,
   file,
@@ -206,6 +194,8 @@ const generateResultFromText = async (
       handleGeneratedResult(response.data);
 
       setPolicyTitle(text.slice(0, 47) + "...");
+
+      toast.success("Analzė atlikta sėkmingai!");
     }
   } catch (error) {
     handleResultReceived(false);

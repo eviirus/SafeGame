@@ -43,10 +43,6 @@ function Input({
     }
   };
 
-  const handleLinkChange = (event) => {
-    setInputValue(event.target.value);
-  };
-
   const onSubmit = (inputValue, fileName, file, inputType) => {
     setIsLoading(true);
     handleSubmit(
@@ -81,16 +77,6 @@ function Input({
         >
           <span className="title">Iš teksto</span>
           <span className="subtitle">Struktūrizuoti iš teksto</span>
-        </button>
-        <button
-          type="button"
-          data-input-type="link"
-          data-placeholder="Įkelkite nuorodą į privatumo politiką. Nuoroda turi prasidėti - https://"
-          data-active={activeButton === "link" ? "true" : "false"}
-          onClick={handleInputButtonClick}
-        >
-          <span className="title">Iš nuorodos</span>
-          <span className="subtitle">Struktūrizuoti iš nuorodos</span>
         </button>
         <button
           type="button"
@@ -131,15 +117,7 @@ function Input({
             value={inputValue}
             onInput={handleInputChange}
           />
-        ) : (
-          <input
-            type="text"
-            id="linkInput"
-            placeholder={placeholder}
-            value={inputValue}
-            onChange={handleLinkChange}
-          />
-        )}
+        ) : null}
       </div>
       {showSubmitButton && (
         <button
