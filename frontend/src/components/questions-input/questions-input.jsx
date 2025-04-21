@@ -36,11 +36,35 @@ function QuestionsInput({ selectedCheckboxes, setSelectedCheckboxes }) {
     });
   };
 
+  const selectAll = () => {
+    const allSelected = filterElements.every((category) => {
+      const selected = selectedCheckboxes[category.title] || [];
+      return selected.length === category.items.length;
+    });
+
+    if (allSelected) {
+      setSelectedCheckboxes({});
+    } else {
+      const updated = {};
+      filterElements.forEach((category) => {
+        updated[category.title] = [...category.items];
+      });
+      setSelectedCheckboxes(updated);
+    }
+  };
+
   return (
     <div className="questions-input">
       <div className="heading">
-        <p className="main">Pasirinkite filtrus</p>
-        <p className="sub">Bent 5 iš bet kurios kategorijos</p>
+        <div className="text">
+          <p className="main">Pasirinkite filtrus</p>
+          <p className="sub">Bent 5 iš bet kurios kategorijos</p>
+        </div>
+        <div className="select-all">
+          <button type="button" onClick={() => selectAll()}>
+            Pasirinkti visus
+          </button>
+        </div>
       </div>
       <div className="column">
         {filterElements.map((element, index) => {
