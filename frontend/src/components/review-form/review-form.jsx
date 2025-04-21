@@ -1,31 +1,49 @@
 import React, { useState } from "react";
 import "./review-form.css";
+import { toast } from "react-toastify";
+import axios from "axios";
 
-function ReviewForm({ onSubmitReview }) {
+function ReviewForm({ onReviewSubmitted }) {
   const [rating, setRating] = useState(null);
   const [reviewText, setReviewText] = useState("");
+  const [name, setName] = useState("");
 
-  const handleSubmit = (e) => {
+  const submitReview = async (e) => {
     e.preventDefault();
 
-    if (onSubmitReview) {
-      onSubmitReview({ rating, reviewText });
+    if (rating < 1) {
+      toast.error("Žvaigždžių įvertinimas negali būti tuščias");
+      return;
     }
 
-    setRating(null);
-    setReviewText("");
+    try {
+      await axios.post("http://localhost:5000/endpoints/leaveReview", {
+        starRating: Number(rating),
+        name: name,
+        review: reviewText,
+      });
+
+      toast.success("Atsiliepimas sėkmingai pateiktas!");
+      onReviewSubmitted?.();
+    } catch (error) {
+      toast.error(error);
+    } finally {
+      setRating(null);
+      setReviewText("");
+      setName("");
+    }
   };
 
   return (
-    <form className="input-fields" onSubmit={handleSubmit}>
-      {/* Reitingo mygtukai */}
+    <form className="review-form" onSubmit={submitReview}>
       <div className="buttons">
         {[1, 2, 3, 4, 5].map((num) => (
           <button
             key={num}
             type="button"
-            data-active={rating === num}
+            data-filled={rating >= num}
             onClick={() => setRating(num)}
+            title={`Vertinti ${num}`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -46,16 +64,25 @@ function ReviewForm({ onSubmitReview }) {
         ))}
       </div>
 
-      {/* Tekstinis laukelis atsiliepimui */}
+      <div className="input-field">
+        <label htmlFor="name">Jūsų vardas</label>
+        <input
+          value={name}
+          id="name"
+          maxLength={256}
+          onChange={(e) => setName(e.target.value)}
+        />
+      </div>
+
       <div className="input-field">
         <textarea
           placeholder="Įrašykite savo atsiliepimą..."
           value={reviewText}
+          maxLength={500}
           onChange={(e) => setReviewText(e.target.value)}
         />
       </div>
 
-      {/* Pateikimo mygtukas */}
       <button type="submit" className="submit-button">
         Pateikti
       </button>
