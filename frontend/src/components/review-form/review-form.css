@@ -1,58 +1,71 @@
-.input-fields {
+.review-form {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-.input-fields .buttons {
+.review-form .buttons {
   display: inline-flex;
   align-items: center;
   flex-wrap: wrap;
   gap: 15px;
 }
 
-.input-fields .buttons button {
+.review-form .buttons button {
   padding: 6px 7px;
   display: flex;
   flex-direction: column;
   text-align: left;
   border-radius: 6px;
-  border: 3px solid transparent;
-  background-color: #fff;
+  border: none;
+  background-color: transparent;
   cursor: pointer;
   transition: border 0.3s ease;
 }
 
-.input-fields .buttons .title {
+.review-form .buttons .title {
   font-size: 16px;
   font-weight: 600;
   color: #000;
   transition: color 0.3s ease;
 }
 
-.input-fields .buttons .subtitle {
+.review-form .buttons .subtitle {
   font-size: 14px;
   font-weight: 400;
   color: #000;
 }
 
-.input-fields .buttons button[data-active="true"],
-.input-fields .buttons button:hover {
-  border: 3px solid var(--primary-color);
+.review-form .buttons button[data-active="true"],
+.review-form .buttons button:hover {
+  border: none;
 }
 
-.input-fields .buttons button[data-active="true"] .title,
-.input-fields .buttons button:hover .title {
-  color: var(--primary-color);
+.review-form .buttons button[data-active="true"] svg,
+.review-form .buttons button:hover svg {
+  fill: var(--primary-color);
 }
 
-.input-fields .input-field {
+.review-form .buttons button[data-active="true"] svg path,
+.review-form .buttons button:hover svg path {
+  stroke: var(--primary-color);
+}
+
+button[data-filled="true"] svg path {
+  stroke: var(--primary-color);
+}
+
+button[data-filled="true"] svg {
+  fill: var(--primary-color);
+}
+
+.review-form .input-field {
   width: 100%;
 }
 
-.input-fields .input-field textarea,
-.input-fields .input-field input {
+.review-form .input-field textarea,
+.review-form .input-field input {
   width: 100%;
   border-radius: 6px;
   border: none;
@@ -68,13 +81,13 @@
   color: #000;
 }
 
-.input-fields .input-field textarea {
+.review-form .input-field textarea {
   min-height: 200px;
 }
 
-.input-fields .input-field textarea:focus,
-.input-fields .input-field input:focus {
-  outline: none; 
+.review-form .input-field textarea:focus,
+.review-form .input-field input:focus {
+  outline: none;
 }
 
 .submit-button {
