@@ -195,7 +195,7 @@ const generateResultFromText = async (
 
       setPolicyTitle(text.slice(0, 47) + "...");
 
-      toast.success("Analzė atlikta sėkmingai!");
+      toast.success("Analizė atlikta sėkmingai!");
     }
   } catch (error) {
     handleResultReceived(false);
