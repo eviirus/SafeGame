@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 import { inputHandlers } from "../../scripts/inputHandler";
 
-export const handleSubmit = (
+export const handleSubmit = ({
   inputValue,
   fileName,
   file,
@@ -9,8 +9,8 @@ export const handleSubmit = (
   handleResultReceived,
   handleGeneratedResult,
   selectedCheckboxes,
-  setPolicyTitle
-) => {
+  setPolicyTitle,
+}) => {
   const questionsFullfilled = checkQuestionsInput(
     selectedCheckboxes,
     handleResultReceived,
@@ -48,7 +48,7 @@ const checkQuestionsInput = (
     toast.error("Pasirinkite bent 5 klausimus iš pateiktų filtrų");
     handleResultReceived(false);
     handleGeneratedResult([]);
-    return false;
+    return [];
   }
 
   return Object.entries(selectedCheckboxes)
