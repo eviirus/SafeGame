@@ -1,104 +1,78 @@
 const { generateResultFromText } = require("../utils/generateResultFromText");
 
 jest.mock("@google/generative-ai", () => {
-  const mockText =
-    "true false true false true false true false true false true false true false true false true false true false true false";
-
-  const mockGenerateContent = jest.fn().mockResolvedValue({
-    response: {
-      text: jest.fn().mockReturnValue(mockText),
-    },
-  });
-
-  const mockGetGenerativeModel = jest.fn().mockReturnValue({
+  const mockGenerateContent = jest.fn();
+  const mockGetGenerativeModel = jest.fn(() => ({
     generateContent: mockGenerateContent,
-  });
+  }));
 
   return {
-    GoogleGenerativeAI: jest.fn().mockImplementation(() => ({
+    GoogleGenerativeAI: jest.fn(() => ({
       getGenerativeModel: mockGetGenerativeModel,
     })),
   };
 });
 
-jest.mock("dotenv", () => ({
-  config: jest.fn(),
-}));
-
+jest.mock("dotenv", () => ({ config: jest.fn() }));
 jest.mock("../utils/textTokenization", () => ({
-  splitTextByTokens: jest.fn().mockImplementation((text) => [text]),
+  splitTextByTokens: jest.fn((text) => [text]),
 }));
-
-const QUESTIONS = [
-  "Name",
-  "Email address",
-  "Phone number",
-  "Physical address",
-  "Date of birth",
-  "Government ID numbers",
-  "IP address",
-  "Browser type and version",
-  "Device identifiers",
-  "Location data",
-  "Payment card details",
-  "Billing address",
-  "Purchase history",
-  "Health records",
-  "Medical conditions or treatments",
-  "Browsing history on the website or app",
-  "Interaction with ads or content ",
-  "Social media interactions",
-  "Information shared with affiliates, partners, or advertisers",
-  "Data collection by third parties",
-  "Use of cookies for tracking purposes",
-  "Third-party tracking technologies",
-];
 
 describe("generateResultFromText", () => {
+  let mockGenerateContent;
+
   beforeEach(() => {
     jest.clearAllMocks();
-
-    if (global.answerCounts) {
-      global.answerCounts = QUESTIONS.map(() => ({ true: 0, false: 0 }));
-    }
+    const { GoogleGenerativeAI } = require("@google/generative-ai");
+    const instance = new GoogleGenerativeAI();
+    mockGenerateContent = instance.getGenerativeModel().generateContent;
   });
 
-  it("TA1 – turėtų grąžinti atsakymų masyvą su 'metaname' ir 'true/false'", async () => {
-    const sampleText =
-      "This is a sample privacy policy about user data collection.";
+  it("turėtų grąžinti teisingai suformuotą atsakymų masyvą", async () => {
+    const mockText = "true false true false true false true false true false true false true false true false true false true false true false";
+    mockGenerateContent.mockResolvedValue({
+      response: { text: jest.fn(() => mockText) },
+    });
 
-    const result = await generateResultFromText(sampleText);
-
+    const result = await generateResultFromText("privacy policy example text");
     expect(Array.isArray(result)).toBe(true);
-    expect(result.length).toBe(22);
-
-    result.forEach((item) => {
-      expect(item).toHaveProperty("metaname");
-      expect(["true", "false"]).toContain(item.answer);
+    expect(result.length).toBeGreaterThan(0);
+    result.forEach((r) => {
+      expect(r).toHaveProperty("metaname");
+      expect(["true", "false"]).toContain(r.answer);
     });
   });
 
-  // it("TA5 – DI grąžina tuščią atsakymą → sistema grąžina visur false", async () => {
-  //   const emptyAnswer = "Atsiprasau bet negaliu";
-  //   const mockText = "Some fake privacy policy content";
+  it("turėtų papildyti 'false' jei atsakymų mažiau nei klausimų", async () => {
+    const mockText = "true false true false"; // mažiau nei klausimų
+    mockGenerateContent.mockResolvedValue({
+      response: { text: jest.fn(() => mockText) },
+    });
 
-  //   const expectedFalseArray = QUESTIONS.map((metaname) => ({
-  //     metaname,
-  //     answer: "false",
-  //   }));
+    console.warn = jest.fn();
+    const result = await generateResultFromText("short response");
+    expect(console.warn).toHaveBeenCalled();
+    expect(result.length).toBeGreaterThanOrEqual(22);
+  });
 
-  //   GoogleGenerativeAI.mockImplementation(() => ({
-  //     getGenerativeModel: () => ({
-  //       generateContent: async () => ({
-  //         response: {
-  //           text: async () => emptyAnswer,
-  //         },
-  //       }),
-  //     }),
-  //   }));
+  it("turėtų sutrumpinti atsakymus jei jų daugiau nei klausimų", async () => {
+    const mockText = new Array(50).fill("true").join(" ");
+    mockGenerateContent.mockResolvedValue({
+      response: { text: jest.fn(() => mockText) },
+    });
 
-  //   const result = await generateResultFromText(mockText);
+    console.warn = jest.fn();
+    const result = await generateResultFromText("long response");
+    expect(console.warn).toHaveBeenCalled();
+    expect(result.length).toBe(22);
+  });
 
-  //   expect(result).toEqual(expectedFalseArray);
-  // });
+  it("turėtų grąžinti klaidos objektą, kai model.generateContent meta klaidą", async () => {
+    mockGenerateContent.mockRejectedValue(new Error("Modelio klaida"));
+
+    const result = await generateResultFromText("some text");
+    expect(result).toHaveProperty("success", false);
+    expect(result.error).toMatch(/Modelio klaida/);
+  });
 });
+

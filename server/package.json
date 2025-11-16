@@ -5,16 +5,19 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "express-fileupload": "^1.5.1",
-    "jest": "^29.7.0",
     "mongoose": "^8.12.1",
     "multer": "^1.4.5-lts.1",
     "openai": "^4.89.1",
     "pdfjs-dist": "^2.10.377",
-    "string-similarity": "^4.0.4",
-    "supertest": "^7.0.0"
+    "string-similarity": "^4.0.4"
   },
   "scripts": {
     "start": "node server.js",
-    "test": "jest"
+    "test": "jest",
+    "test:coverage": "jest --coverage --runInBand"
+  },
+  "devDependencies": {
+    "jest": "^30.2.0",
+    "supertest": "^7.1.4"
   }
 }
